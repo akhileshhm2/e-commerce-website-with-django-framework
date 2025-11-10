@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ upload.name }}</title>
+</head>
+<body>
+    <h1>{{ upload.name }}</h1>
+    <img src="{{ upload.image.url }}" width="200" alt="{{ upload.name }}">
+    <p><strong>Price:</strong> ${{ upload.price }}</p>
+    <p><strong>Description:</strong> {{ upload.description }}</p>
+
+    <a href="{% url 'product_list' %}">Back to all products</a>
+</body>
+</html>
