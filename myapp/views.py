@@ -84,4 +84,49 @@ def remove_from_cart(request,cart_id):
     cart_item.delete()
     return redirect('cart')
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+from .models import BillingDetails, Order
+
+
+def billing_page(request):
+
+    if request.method == "POST":
+        full_name = request.POST.get("full_name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+        country = request.POST.get("country")
+        address = request.POST.get("address")
+        city = request.POST.get("city")
+        postal_code = request.POST.get("postal_code")
+
+        # ✅ Save billing details
+        billing = BillingDetails.objects.create(
+            user=request.user if request.user.is_authenticated else None,
+            full_name=full_name,
+            email=email,
+            phone=phone,
+            country=country,
+            address=address,
+            city=city,
+            postal_code=postal_code
+        )
+
+        # ✅ Create order (hardcoded totals — replace later with cart)
+        order = Order.objects.create(
+            billing_details=billing,
+            subtotal=118.00,
+            shipping=6.00,
+            tax=4.00,
+            total=128.00
+        )
+
+        messages.success(request, "Order placed successfully!")
+        return redirect("order_success")  # ✅ create this URL
+    
+
+    return render(request, "billing.html")
+
+
 

@@ -5,62 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ upload.name }}</title>
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: "Poppins", sans-serif;
-            background: #f7fafc;
-            padding: 30px;
+            margin: 0;
+            font-family: "Inter", "Poppins", sans-serif;
+            background: #0f0f0f;
+            color: #f1f1f1;
         }
 
-        img {
-            border-radius: 10px;
+        /* HEADER / HERO */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #141414, #1c1c1c);
+            border-bottom: 1px solid #222;
         }
 
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #ff7b00;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #ccc;
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin: auto;
+            font-style: italic;
+        }
+
+        /* MAIN CONTENT LAYOUT */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border: 1px solid #222;
+            transition: 0.3s ease;
+        }
+
+        .product-img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .details h2 {
+            font-size: 2rem;
+            margin-bottom: 18px;
+            color: #fff;
+        }
+
+        .details p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin: 12px 0;
+        }
+
+        .price-tag {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ff7b00;
+            margin: 18px 0;
+        }
+
+        /* BUTTONS */
         .btn-cart {
             display: inline-block;
-            background: #ff7b00;
-            color: white;
-            padding: 10px 18px;
-            margin-top: 20px;
-            border-radius: 8px;
-            text-decoration: none;
+            background: linear-gradient(135deg, #ff8800, #ff6600);
+            color: #000;
+            padding: 12px 22px;
+            border-radius: 10px;
             font-size: 1rem;
-            transition: 0.3s;
+            text-decoration: none;
+            transition: 0.25s ease;
+            font-weight: 600;
         }
 
         .btn-cart:hover {
-            background: #e96b00;
+            background: linear-gradient(135deg, #ff6600, #d95300);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 18px rgba(255,102,0,0.5);
         }
 
         .back-btn {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: #bbb;
             text-decoration: none;
-            color: #444;
-            font-size: 0.9rem;
         }
 
         .back-btn:hover {
             text-decoration: underline;
+            color: #ff7b00;
+        }
+
+        @media (max-width: 780px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .product-img {
+                height: 360px;
+            }
         }
     </style>
 
 </head>
 <body>
 
-    <h1>{{ upload.name }}</h1>
+    <!-- HEADER -->
+    <div class="hero">
+        <h1>{{ upload.name }}</h1>
+        <p>"A perfect choice for those who love comfort with style."</p>
+    </div>
 
-    <img src="{{ upload.image.url }}" width="250" alt="{{ upload.name }}">
+    <!-- PRODUCT SECTION -->
+    <div class="container">
 
-    <p><strong>Price:</strong> ${{ upload.price }}</p>
-    <p><strong>Description:</strong> {{ upload.description }}</p>
+        <!-- IMAGE -->
+        <div>
+            <img src="{{ upload.image.url }}" alt="{{ upload.name }}" class="product-img">
+        </div>
 
-    <!-- ADD TO CART BUTTON -->
-    <a href="{% url 'add_to_cart' upload.id %}" class="btn-cart">Add to Cart</a>
+        <!-- DETAILS -->
+        <div class="details">
+            <h2>{{ upload.name }}</h2>
 
-    <br><br>
-    <a href="{% url 'product_list' %}" class="back-btn">← Back to all products</a>
+            <p class="price-tag">Price: ${{ upload.price }}</p>
+
+            <p><strong>Description:</strong></p>
+            <p>{{ upload.description }}</p>
+
+            <!-- ADD TO CART BUTTON -->
+            <a href="{% url 'add_to_cart' upload.id %}" class="btn-cart">Add to Cart</a>
+
+            <!-- BACK BUTTON -->
+            <br>
+            <a href="{% url 'product_list' %}" class="back-btn">← Back to all products</a>
+        </div>
+
+    </div>
 
 </body>
 </html>
-

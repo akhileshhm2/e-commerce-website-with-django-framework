@@ -6,43 +6,72 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Cart</title>
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
   body {
     margin: 0;
-    font-family: "Poppins", sans-serif;
-    background: #f7fafc;
-    color: #222;
+    font-family: "Inter", "Poppins", sans-serif;
+    background: #0f0f0f;
+    color: #f1f1f1;
   }
 
+  /* HEADER */
+  .hero {
+    text-align: center;
+    padding: 55px 20px;
+    background: linear-gradient(135deg, #141414, #1c1c1c);
+    border-bottom: 1px solid #222;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    color: #ff7b00;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    color: #ccc;
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: auto;
+    font-style: italic;
+  }
+
+  /* CONTAINER */
   .container {
     max-width: 1100px;
     margin: 40px auto;
     padding: 20px;
   }
 
-  h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-    color: #111;
-  }
-
+  /* CART ITEMS */
   .cart-item {
-    background: #fff;
+    background: #181818;
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    margin-bottom: 18px;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    border: 1px solid #2a2a2a;
+    margin-bottom: 20px;
+    transition: 0.3s ease;
+  }
+
+  .cart-item:hover {
+    border-color: #ff7b00;
+    transform: translateY(-4px);
   }
 
   .cart-item img {
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
   }
 
   .item-details {
@@ -50,96 +79,122 @@
   }
 
   .item-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
+    color: #fff;
   }
 
   .item-price {
     color: #ff7b00;
     font-weight: 700;
     font-size: 1.1rem;
-    margin-top: 5px;
+    margin-top: 6px;
   }
 
   .qty {
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
   .qty input {
-    width: 60px;
-    padding: 5px;
-    font-size: 0.9rem;
-    border: 1px solid #ddd;
+    width: 70px;
+    padding: 6px;
+    font-size: 0.95rem;
+    background: #222;
+    border: 1px solid #444;
     border-radius: 8px;
+    color: #fff;
     text-align: center;
   }
 
+  /* REMOVE BUTTON */
   .btn-remove {
-    background: #ff4b4b;
-    color: #fff;
-    padding: 8px 14px;
-    border-radius: 8px;
+    background: #ff3d3d;
+    color: #000;
+    padding: 10px 16px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.25s ease;
+    font-weight: 600;
   }
 
   .btn-remove:hover {
-    background: #e13636;
+    background: #d92c2c;
+    transform: translateY(-3px);
   }
 
+  /* SUMMARY BOX */
   .summary-box {
-    margin-top: 30px;
+    margin-top: 40px;
     text-align: right;
+    padding: 20px;
+    background: #181818;
+    border-radius: 14px;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
   }
 
   .total {
-    font-size: 1.4rem;
+    font-size: 1.7rem;
     font-weight: 700;
+    color: #ff7b00;
     margin-bottom: 20px;
   }
 
   .checkout-btn {
-    background: #ff7b00;
-    color: #fff;
-    padding: 12px 18px;
+    background: linear-gradient(135deg, #ff8800, #ff6600);
+    color: #000;
+    padding: 14px 22px;
     font-size: 1rem;
-    border-radius: 8px;
+    border-radius: 10px;
     text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s ease;
   }
 
   .checkout-btn:hover {
-    background: #e96b00;
+    background: linear-gradient(135deg, #ff6600, #d95300);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 18px rgba(255,102,0,0.5);
   }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- HEADER -->
+<div class="hero">
   <h1>Your Shopping Cart</h1>
+  <p>“Great choices! Review your items before proceeding to checkout.”</p>
+</div>
+
+<!-- CART CONTENT -->
+<div class="container">
 
   {% for item in cart_items %}
   <div class="cart-item">
-    <img src="{{ item.product.image.url }}" alt="{{ item.upload.name }}">
-    
+
+    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+
     <div class="item-details">
       <div class="item-title">{{ item.product.name }}</div>
       <div class="item-price">$ {{ item.product.price }}</div>
 
       <form action="{% url 'cart_update' item.id %}" method="POST">
         {% csrf_token %}
-      <div class="qty">
-        <input type="number" name="quantity" value="{{ item.quantity }}" min="1"
-                      onchange="this.form.submit()">
-      </div>
+        <div class="qty">
+          <input type="number" name="quantity" value="{{ item.quantity }}" min="1" onchange="this.form.submit()">
+        </div>
+      </form>
     </div>
 
     <a href="{% url 'remove_from_cart' item.id %}">
-    <button class="btn-remove">Remove</button>
+      <button class="btn-remove">Remove</button>
+    </a>
+
   </div>
   {% empty %}
-  <h2 style="text-align:center; color:#666;">Your cart is empty.</h2>
+  <h2 style="text-align:center; color:#777;">Your cart is empty.</h2>
   {% endfor %}
 
   <div class="summary-box">

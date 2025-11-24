@@ -1,0 +1,203 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing Details</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Inter", "Poppins", Arial, sans-serif;
+    background: #0f0f0f;
+    color: #f1f1f1;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #141414, #1c1c1c);
+    border-bottom: 1px solid #222;
+  }
+
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #ff7b00;
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    color: #ccc;
+    font-size: 1.1rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 35px;
+  }
+
+  .form-box, .summary-box {
+    background: #181818;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+  }
+
+  h2 {
+    margin-top: 0;
+    font-size: 1.6rem;
+    color: #ff7b00;
+  }
+
+  label {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 0.95rem;
+    color: #ddd;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background: #111;
+    border: 1px solid #444;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #ff7b00;
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 25px;
+    background: linear-gradient(135deg, #ff8800, #ff6600);
+    color: #000;
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+    border: none;
+  }
+
+  .btn:hover {
+    background: linear-gradient(135deg, #ff6600, #d95300);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 16px rgba(255,102,0,0.4);
+  }
+
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0;
+    font-size: 0.95rem;
+    color: #ccc;
+  }
+
+  .total {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #ff7b00;
+    margin-top: 18px;
+    border-top: 1px solid #333;
+    padding-top: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="hero">
+  <h1>Billing Details</h1>
+  <p>Complete your purchase securely and effortlessly.</p>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- BILLING FORM -->
+  <div class="form-box">
+    <h2>Your Information</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <label>Full Name</label>
+      <input type="text" name="full_name" required>
+
+      <label>Email Address</label>
+      <input type="email" name="email" required>
+
+      <label>Phone Number</label>
+      <input type="text" name="phone" required>
+
+      <label>Country</label>
+      <select name="country" required>
+        <option>Select Country</option>
+        <option>India</option>
+        <option>USA</option>
+        <option>UK</option>
+      </select>
+
+      <label>Address</label>
+      <textarea name="address" rows="3" required></textarea>
+
+      <label>City</label>
+      <input type="text" name="city" required>
+
+      <label>Postal / ZIP Code</label>
+      <input type="text" name="postal_code" required>
+
+      <button type="submit" class="btn">Place Order</button>
+    </form>
+  </div>
+
+  <!-- ORDER SUMMARY -->
+  <div class="summary-box">
+    <h2>Order Summary</h2>
+
+    <div class="summary-item">
+      <span>Subtotal</span>
+      <span>{{total_amount}}</span>
+    </div>
+
+    <div class="summary-item">
+      <span>Shipping</span>
+      <span>$6.00</span>
+    </div>
+
+    <div class="summary-item">
+      <span>Tax</span>
+      <span>$4.00</span>
+    </div>
+
+    <div class="total">
+      Total: $128.00
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
