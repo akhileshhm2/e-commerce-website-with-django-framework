@@ -467,6 +467,9 @@ def remove_wishlist(request, product_id):
     item.delete()
     return redirect('wishlist')
 
+def google_login(request):
+    return redirect('social:begin',backend='google-oauth2')
+
 # @login_required(login_url='signin')
 # def remove_wishlist(request, product_id):
 #     item = Wishlist.objects.filter(user=request.user, product_id=product_id).first()

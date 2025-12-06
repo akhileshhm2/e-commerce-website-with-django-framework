@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp'
+    'myapp',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'detproject.urls'
@@ -62,6 +64,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -99,7 +103,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SITE_ID=1
 
+AUTHENTICATION_BACKENDS=[
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='379948389184-6lp43vtao2dib2ddes2rjddbhec9romj.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET='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'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI='http://127.0.0.1:8000/oauth/complete/google-oauth2/'
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -127,3 +141,7 @@ MEDIA_ROOT=BASE_DIR / 'media'
 
 RAZORPAY_KEY_ID ='rzp_test_RkLdHC6GWDzPGZ'
 RAZORPAY_KEY_SECRET= 'XQUNXRPPO61PcVhQpPXTxmV1'
+
+LOGIN_URL = 'signin'
+LOGIN_REDIRECT_URL = 'product_list'
+LOGOUT_REDIRECT_URL = 'signin'
